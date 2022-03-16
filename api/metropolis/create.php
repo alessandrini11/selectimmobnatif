@@ -7,26 +7,28 @@
     header('Access-Control-Allow-Headers: Access-Control-Allow-Headers,Content-Type, Access-Control-Allow-Methods, Authorization, X-Requested-With');
 
     include_once '../../config/db.php';
-    include_once '../../models/Location.php';
+    include_once '../../models/Metropolis.php';
 
     $database = new Db();
     $db = $database->connect();
 
-    $location = new Location($db);
+    $metropolis = new Metropolis($db);
     $data = json_decode(file_get_contents("php://input"));
 
-    $location->name = $data->name;
-    $location->description = $data->description;
-    $location->ts_creation = $data->ts_creation;
-    $location->user_creation = $data->user_creation;
-    $location->ts_update = $data->ts_update;
-    $location->user_update = $data->user_update;
+    $metropolis->name = $data->name;
+    $metropolis->code = $data->code;
+    $metropolis->state = $data->state;
+    $metropolis->icon_url = $data->icon_url;
+    $metropolis->ts_creation = $data->ts_creation;
+    $metropolis->user_creation = $data->user_creation;
+    $metropolis->ts_update = $data->ts_update;
+    $metropolis->user_update = $data->user_update;
 
-    if($location->create()){
+    if($metropolis->create()){
         echo json_encode(
             array(
-                'message' => 'Location created',
-                'location' => $location
+                'message' => 'Metropolis created',
+                'metropolis' => $metropolis
             )
         );
     } else {
